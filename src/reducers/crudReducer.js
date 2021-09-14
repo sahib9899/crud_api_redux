@@ -1,7 +1,10 @@
+import { registerUser } from "../actions";
+
 const crudOperation = (state = [], action) => {
+
   switch (action.type) {
     case "CREATE":
-      // console.log("Hello",action.payload)
+      console.log("Hello",action.payload)
       return action.payload;
 
     case "UPDATE":
@@ -12,7 +15,7 @@ const crudOperation = (state = [], action) => {
       return newData;
 
     case "DELETE":
-      // console.log('as',action.payload)
+      console.log('del',action.payload)
       return state.filter((state) => {
         return state.id !== action.payload.data.id;
       });
@@ -21,5 +24,6 @@ const crudOperation = (state = [], action) => {
       return state;
   }
 };
+
 
 export default crudOperation;

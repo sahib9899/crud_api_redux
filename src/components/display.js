@@ -1,11 +1,13 @@
 import React from "react";
 import { createData, deleteData, updateData } from "../actions";
 import { Button, Card } from "react-bootstrap";
-import { useSelector, useDispatch, connect } from "react-redux";
+import { connect } from "react-redux";
 
-const Display = props => {
-  const data = useSelector(state => state.crudOperation);
-  const dispatch = useDispatch();
+const Display = (props) => {
+  // const data = useSelector(state => state.crudOperation);
+  // const dispatch = useDispatch();
+  console.log(props.data)
+  const data  = props.data;
 
   const fetchData = () => {
     return data.map((user) => {
@@ -17,8 +19,8 @@ const Display = props => {
                 {user.first_name} {user.last_name}
               </Card.Title>
               <Card.Text>{user.email}</Card.Text>
-              <Button variant="primary" onClick={props.update}>Update</Button>
-              <Button variant="secondary" onClick={props.deleteData(user.id)} >Delete</Button>
+              <Button variant="primary" onClick={()=>props.update(user)} >Update</Button>
+              <Button variant="secondary" onClick={()=>props.deleteUser({user})} >Delete</Button>
             </Card.Body>
           </Card>
         )
@@ -39,15 +41,14 @@ const Display = props => {
 
 const mapStateToProps = state => {
     return {
-        crud: state.crudOperation
+        data : state.crudOperation
     }
 }
 
-const mapDispatchToProps = dispatch => {
-  return{
-    deleteData: (array) => dispatch(deleteData(array)),
-    create: ()=>dispatch(createData()),
-    update: ()=>dispatch(updateData())
-}}
+const mapDispatchToProps = (dispatch) => ({
+    deleteUser: () => dispatch(deleteData()),
+    create: () => dispatch(createData()),
+    update: () => dispatch(updateData())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Display);
