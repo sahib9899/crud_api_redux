@@ -1,29 +1,33 @@
 import React, { useState } from "react";
+import Display from "./display";
 import { Button, Container, Row } from "react-bootstrap";
 import { loginUser, registerUser } from "../actions";
 import { connect } from "react-redux";
+import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 
 const Register = (props) => {
   const [data, setData] = useState({ email: "", password: "" });
   const [login, setLogin] = useState({ email: "", password: "" });
-  console.log('newuser',  props.newUser)
+
+  console.log("newuser", props.newUser);
+
   const regToken = props.newUser.token;
   const loginToken = props.loginData.data;
 
-  localStorage.setItem('RegisterToken', regToken);
-  localStorage.setItem('LoginToken', loginToken);
-  
-  console.log('tokens',regToken)
+  localStorage.setItem("RegisterToken", regToken);
+  // localStorage.setItem("LoginToken", loginToken);
+
+  // console.log("tokens", regToken);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.reg({ data });
+    props.registerUser({ data });
     setData({ email: "", password: "" });
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    props.userLogin({ login });
+    props.loginUser({ login });
     setLogin({ email: "", password: "" });
   };
 
@@ -48,12 +52,16 @@ const Register = (props) => {
                 placeholder="Enter Password"
               ></input>
             </Row>
-            <Row className="mt-2 justify-content-md-left" mt-3 xs lg="3">
+            <Row className="mt-2 justify-content-md-left" mt-3 xs lg="5">
               <Button onClick={handleSubmit}>Register</Button>
             </Row>
-            <Row className="mt-1 justify-content-md-left" xs mt="3" lg="3">
-              already a user?
-            </Row>
+            {regToken == undefined ? (
+              <Row className="mt-1 justify-content-md-left" xs mt="3" lg="3"> </Row>
+            ) : (
+              <Row className="mt-1 justify-content-md-left" xs mt="3" lg="3">
+                <font color="green">  Registered Succesfully. Login to enter.</font>
+              </Row>
+            )}
           </form>
         </Container>
       </div>
@@ -61,10 +69,13 @@ const Register = (props) => {
       <div>
         <Container>
           <Row className="mt-5 justify-content-md-left" xs mt="3" lg="3">
+            already a user? then Login below
+          </Row>
+          <Row className="mt-2 justify-content-md-left" xs mt="3" lg="3">
             <input
               type="text"
               value={login.email}
-              onChange={(e) => setLogin({...login, email: e.target.value })}
+              onChange={(e) => setLogin({ ...login, email: e.target.value })}
               placeholder="Enter Email"
             ></input>
           </Row>
@@ -72,13 +83,20 @@ const Register = (props) => {
             <input
               type="text"
               value={login.password}
-              onChange={(e) => setLogin({...login, password: e.target.value })}
+              onChange={(e) => setLogin({ ...login, password: e.target.value })}
               placeholder="Enter Password"
             ></input>
           </Row>
-          <Row className="mt-2 justify-content-md-left" mt-3 xs lg="3">
+          <Row className="mt-2 justify-content-md-left" lg="5">
             <Button onClick={handleLogin}>Login</Button>
           </Row>
+          {loginToken === undefined ? (
+            <Row className="mt-1 justify-content-md-left" xs mt="3" lg="3">
+              <font color="red"> Incorrect Email or Password!!</font>
+            </Row>
+          ) : (
+            <Display />
+          )}
         </Container>
       </div>
     </div>
@@ -87,12 +105,9 @@ const Register = (props) => {
 
 const mapStateToProps = (state) => ({
   newUser: state.regisrtation,
-  loginData: state.loginReducer
+  loginData: state.loginReducer,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  reg: (object) => dispatch(registerUser(object)),
-  userLogin: (object) => dispatch(loginUser(object)),
-});
+const mapDispatchToProps = { registerUser, loginUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

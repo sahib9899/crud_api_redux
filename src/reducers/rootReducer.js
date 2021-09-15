@@ -3,9 +3,9 @@ import crudOperation from "./crudReducer";
 import {regisrtation, loginReducer} from "./loginReducer";
 
 const rootReducer = combineReducers({
-    crudOperation: crudOperation,
-    regisrtation: regisrtation,
-    loginReducer: loginReducer
+    crudOperation,
+    regisrtation,
+    loginReducer
 })
 
 export default rootReducer;

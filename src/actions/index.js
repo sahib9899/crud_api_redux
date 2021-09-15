@@ -11,9 +11,10 @@ export const createData = () => {
   };
 };
 
-export const updateData = (id) => {
+export const updateData = (data) => {
+  console.log('updateData', data)
   return async function (dispatch) {
-    const response = await axios.get(`https://reqres.in/api/users/${id}`);
+    const response = await axios.patch(`https://reqres.in/api/users/${data.id}`, data);
     console.log("res", response);
     return dispatch({
       type: "UPDATE",
@@ -23,16 +24,16 @@ export const updateData = (id) => {
 };
 
 export const deleteData = (id) => {
-  console.log("id", id)
-  // return async function (dispatch) {
-  //   const response = await axios.delete(`https://reqres.in/api/users/${id}`);
-    // console.log(response);
-    return ({
+  console.log("idsfs", id)
+  return async function (dispatch) {
+    const response = await axios.get(`https://reqres.in/api/users/${id}`);
+    console.log(response.data.data);
+    return dispatch({
       type: "DELETE",
-      payload: id
+      payload: response.data.data
     });
   };
-// };
+};
 
 export const registerUser = (data) => {
   console.log('dsa',data.data)
@@ -49,7 +50,7 @@ export const registerUser = (data) => {
 export const loginUser = (data) => {
   console.log('Log',data.login)
   return async function (dispatch) {
-    const response = await axios.post(`https://reqres.in/api/login`,data);
+    const response = await axios.get(`https://reqres.in/api/login`,data);
      console.log('login',response)
     return dispatch({
       type: "LOGIN",

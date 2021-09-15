@@ -17,7 +17,7 @@ export const loginReducer = (state=[], action) => {
       console.log('logindsafa',action.payload.data);
       return action.payload;
 
-      default: return state;
+      default: return [state];
   }
 }
 

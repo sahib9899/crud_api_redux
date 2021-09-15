@@ -1,4 +1,3 @@
-import { registerUser } from "../actions";
 
 const crudOperation = (state = [], action) => {
 
@@ -15,9 +14,8 @@ const crudOperation = (state = [], action) => {
       return newData;
 
     case "DELETE":
-      console.log('del',action.payload)
       return state.filter((state) => {
-        return state.id !== action.payload.data.id;
+        return state.id !== action.payload.id;
       });
 
     default:
