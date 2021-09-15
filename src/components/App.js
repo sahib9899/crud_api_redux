@@ -3,8 +3,8 @@ import  Display  from "./display";
 import Register from "./register";
 
 function App() {
-  return <Display />;
-   //return <Register />;
+ // return <Display />;
+   return <Register />;
 }
 
 export default App;
